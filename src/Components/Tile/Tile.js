@@ -10,6 +10,7 @@ const Tile = props => {
       max="9"
       value={props.value !== "." ? props.value : ""}
       onChange={e => props.change(e, props.id)}
+      disabled={props.disabled}
     />
   );
 };

@@ -12,9 +12,8 @@ class App extends Component {
   };
 
   handleTileChange = (e, id) => {
-    const ID = id;
     const updateBoard = [...this.state.board].map((element, i) => {
-      if (i === ID) return (element = e.target.value);
+      if (i === id) return (element = e.target.value);
       else return element;
     });
     this.setState({
