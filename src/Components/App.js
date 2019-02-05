@@ -30,6 +30,10 @@ class App extends Component {
           initialBoard={this.state.initialBoard}
           board={this.state.board}
         />
+        <button>Check</button>
+        <button>New Game</button>
+        <button>Solve</button>
+        <button>Restart</button>
       </div>
     );
   }
