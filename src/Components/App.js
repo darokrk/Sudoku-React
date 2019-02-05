@@ -21,6 +21,36 @@ class App extends Component {
     });
   };
 
+  handleRestart = () => {
+    this.setState({
+      board: this.state.initialBoard
+    });
+  };
+
+  handleNewGame = () => {
+    data = sudoku.generate("medium").split("");
+    this.setState({
+      initialBoard: data,
+      board: data
+    });
+  };
+
+  handleSolve = actualBoard => {
+    let solveBoard = sudoku.solve(actualBoard);
+    if (solveBoard) {
+      solveBoard = solveBoard.split("");
+      this.setState({
+        board: solveBoard
+      });
+    } else return alert("You make some mistake, your sudoku can't be solved!");
+  };
+
+  handleCheck = actualBoard => {
+    let solveBoard = sudoku.solve(actualBoard);
+    if (solveBoard) return alert("Keep going you can solve it :)");
+    else return alert("You make some mistake, fix some Tiles");
+  };
+
   render() {
     return (
       <div className="container">
@@ -30,10 +60,14 @@ class App extends Component {
           initialBoard={this.state.initialBoard}
           board={this.state.board}
         />
-        <button>Check</button>
-        <button>New Game</button>
-        <button>Solve</button>
-        <button>Restart</button>
+        <button onClick={() => this.handleCheck(this.state.board)}>
+          Check
+        </button>
+        <button onClick={this.handleNewGame}>New Game</button>
+        <button onClick={() => this.handleSolve(this.state.board)}>
+          Solve
+        </button>
+        <button onClick={this.handleRestart}>Restart</button>
       </div>
     );
   }

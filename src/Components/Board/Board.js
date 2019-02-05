@@ -11,7 +11,7 @@ const Board = props => {
     <Tile
       key={i}
       id={i}
-      value={field}
+      value={field > 9 ? 9 : field && field < 1 ? 1 : field}
       change={props.change}
       disabled={initialBoardStatus[i]}
     />
