@@ -1,6 +1,13 @@
 .board {
   display: flex;
-  flex-wrap: wrap;
-  max-height: 95vh;
-  max-width: 540px;
+  max-width: 564px;
+  border: 2px solid black;
+}
+
+.table__row {
+  display: flex;
+}
+
+.table__row--border {
+  border-bottom: 2px solid black;
 }

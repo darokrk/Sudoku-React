@@ -1,7 +1,23 @@
+.table__data {
+  padding: 0;
+  border: 1px solid grey
+}
+
+.table__data--border {
+  border-right: 2px solid black;
+}
+
 .tile__input {
-  width: 58px;
-  height: 58px;
-  border: 1px solid grey;
-  font-size: 28px;
+  width: 60px;
+  height: 60px;
+  border: none;
+  font-size: 36px;
   text-align: center;
+  padding: 0;
+}
+
+.tile__input::-webkit-inner-spin-button,
+.tile__input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }

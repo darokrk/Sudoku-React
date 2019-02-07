@@ -3,7 +3,9 @@ import "./App.scss";
 import Board from "./Board/Board";
 import sudoku from "sudoku-umd";
 
-let data = sudoku.generate("easy").split("");
+let data = sudoku.generate("easy");
+console.log([...data]);
+data = sudoku.board_string_to_grid(data);
 
 class App extends Component {
   state = {
@@ -11,10 +13,14 @@ class App extends Component {
     board: data
   };
 
-  handleTileChange = (e, id) => {
-    const updateBoard = [...this.state.board].map((element, i) => {
-      if (i === id) return (element = e.target.value);
-      else return element;
+  handleTileChange = (e, id, squareNumber) => {
+    const updateBoard = [...this.state.board].map((square, i) => {
+      if (i === squareNumber) {
+        return (square = square.map((field, i) => {
+          if (i === id) return (field = e.target.value);
+          else return field;
+        }));
+      } else return square;
     });
     this.setState({
       board: updateBoard
@@ -28,7 +34,8 @@ class App extends Component {
   };
 
   handleNewGame = () => {
-    data = sudoku.generate("medium").split("");
+    data = sudoku.generate("easy");
+    data = sudoku.board_string_to_grid([...data]);
     this.setState({
       initialBoard: data,
       board: data
@@ -36,9 +43,10 @@ class App extends Component {
   };
 
   handleSolve = actualBoard => {
-    let solveBoard = sudoku.solve(actualBoard);
+    let solveBoard = sudoku.board_grid_to_string(actualBoard);
+    solveBoard = sudoku.solve(solveBoard);
     if (solveBoard) {
-      solveBoard = solveBoard.split("");
+      solveBoard = sudoku.board_string_to_grid(solveBoard);
       this.setState({
         board: solveBoard
       });
@@ -46,8 +54,9 @@ class App extends Component {
   };
 
   handleCheck = actualBoard => {
-    let solveBoard = sudoku.solve(actualBoard);
-    if (solveBoard) return alert("Keep going you can solve it :)");
+    let checkBoard = sudoku.board_grid_to_string(actualBoard);
+    checkBoard = sudoku.solve(checkBoard);
+    if (checkBoard) return alert("Keep going you can solve it :)");
     else return alert("You make some mistake, fix some Tiles");
   };
 
