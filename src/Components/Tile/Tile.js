@@ -16,7 +16,7 @@ const Tile = props => {
         min="1"
         max="9"
         value={props.value !== "." ? props.value : ""}
-        onChange={e => props.change(e, props.id, props.square)}
+        onChange={e => props.change(e, props.id, props.rowIndex)}
         disabled={props.disabled}
       />
     </td>

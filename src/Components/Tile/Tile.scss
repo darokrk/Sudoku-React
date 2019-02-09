@@ -1,6 +1,6 @@
 .table__data {
   padding: 0;
-  border: 1px solid grey
+  border: 1px solid gray;
 }
 
 .table__data--border {
@@ -12,8 +12,20 @@
   height: 60px;
   border: none;
   font-size: 36px;
+  color: rgb(0, 0, 236);
   text-align: center;
   padding: 0;
+
+  &:focus {
+    outline: none;
+    border: 2px solid blue;
+    box-shadow: 0 0 10px blue;
+  }
+
+  &:disabled {
+    background: white;
+    color: rgb(34, 34, 34);
+  }
 }
 
 .tile__input::-webkit-inner-spin-button,

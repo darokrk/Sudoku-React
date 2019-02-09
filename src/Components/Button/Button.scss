@@ -5,8 +5,29 @@
   border: 2px solid black;
   border-radius: 20px;
   color: white;
+  font-size: 14px;
+
+  &:focus {
+    outline: none;
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .button--check {
-  background: #fab95b
+  background: #f79814;
+}
+
+.button--game {
+  background: green;
+}
+
+.button--solve {
+  background: blue;
+}
+
+.button--restart {
+  background: red;
 }

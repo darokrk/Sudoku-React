@@ -1,26 +1,26 @@
 import React from "react";
-import uuid from "uuid";
 import Tile from "../Tile/Tile";
 import "./Board.scss";
 
 const Board = props => {
-  const initialBoardStatus = props.initialBoard.map(square => {
-    return (square = square.map(field => {
+  const initialBoardStatus = [...props.initialBoard].map(row => {
+    return (row = row.map(field => {
       if (field === ".") return false;
       else return true;
     }));
   });
-  const actualBoard = props.board.map((square, i) => {
-    const squareIndex = i;
-    const initialSquareFields = initialBoardStatus[i];
-    square = square.map((field, i) => (
+
+  const actualBoard = [...props.board].map((row, i) => {
+    const rowIndex = i;
+    const initialRowFields = initialBoardStatus[i];
+    row = row.map((field, i) => (
       <Tile
-        key={uuid.v4()}
+        key={i}
         id={i}
-        square={squareIndex}
+        rowIndex={rowIndex}
         value={field > 9 ? 9 : field && field < 1 ? 1 : field}
         change={props.change}
-        disabled={initialSquareFields[i]}
+        disabled={initialRowFields[i]}
       />
     ));
     return (
@@ -30,7 +30,7 @@ const Board = props => {
         }
         key={i}
       >
-        {square}
+        {row}
       </tr>
     );
   });

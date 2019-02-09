@@ -1,21 +1,27 @@
 import React, { Component } from "react";
 import "./App.scss";
-import Board from "./Board/Board";
 import sudoku from "sudoku-umd";
+import Header from "./Header/Header";
+import Board from "./Board/Board";
+import Button from "./Button/Button";
+import TimeWatch from "./TimeWatch/TimeWatch";
 
-let data = sudoku.generate("easy");
-console.log([...data]);
+let data = sudoku.generate("medium");
 data = sudoku.board_string_to_grid(data);
 
 class App extends Component {
   state = {
     initialBoard: data,
-    board: data
+    board: data,
+    time: {
+      seconds: 0,
+      minutes: 0
+    }
   };
 
-  handleTileChange = (e, id, squareNumber) => {
+  handleTileChange = (e, id, rowIndex) => {
     const updateBoard = [...this.state.board].map((square, i) => {
-      if (i === squareNumber) {
+      if (i === rowIndex) {
         return (square = square.map((field, i) => {
           if (i === id) return (field = e.target.value);
           else return field;
@@ -29,16 +35,24 @@ class App extends Component {
 
   handleRestart = () => {
     this.setState({
-      board: this.state.initialBoard
+      board: this.state.initialBoard,
+      time: {
+        seconds: 0,
+        minutes: 0
+      }
     });
   };
 
   handleNewGame = () => {
-    data = sudoku.generate("easy");
+    data = sudoku.generate("medium");
     data = sudoku.board_string_to_grid([...data]);
     this.setState({
       initialBoard: data,
-      board: data
+      board: data,
+      time: {
+        seconds: 0,
+        minutes: 0
+      }
     });
   };
 
@@ -60,23 +74,63 @@ class App extends Component {
     else return alert("You make some mistake, fix some Tiles");
   };
 
+  getTime = () => {
+    const { seconds } = this.state.time;
+    this.setState(prevState => ({
+      time: { ...prevState.time, seconds: seconds + 1 }
+    }));
+  };
+
+  componentDidMount() {
+    this.stopWatch();
+  }
+
+  componentDidUpdate() {
+    if (this.state.time.seconds === 60) {
+      this.setState(prevState => ({
+        time: {
+          ...prevState.time,
+          minutes: prevState.time.minutes + 1,
+          seconds: 0
+        }
+      }));
+    }
+  }
+
+  stopWatch = () => {
+    setInterval(this.getTime, 1000);
+  };
+
   render() {
     return (
       <div className="container">
-        <h1>Sudoku game</h1>
+        <Header />
         <Board
           change={this.handleTileChange}
           initialBoard={this.state.initialBoard}
           board={this.state.board}
         />
-        <button onClick={() => this.handleCheck(this.state.board)}>
-          Check
-        </button>
-        <button onClick={this.handleNewGame}>New Game</button>
-        <button onClick={() => this.handleSolve(this.state.board)}>
-          Solve
-        </button>
-        <button onClick={this.handleRestart}>Restart</button>
+        <div className="buttons__wrapper">
+          <Button
+            class={"check"}
+            board={this.state.board}
+            name={"Check"}
+            click={this.handleCheck}
+          />
+          <Button class={"game"} name={"New Game"} click={this.handleNewGame} />
+          <Button
+            class={"solve"}
+            board={this.state.board}
+            name={"Solve"}
+            click={this.handleSolve}
+          />
+          <Button
+            class={"restart"}
+            name={"Restart"}
+            click={this.handleRestart}
+          />
+        </div>
+        <TimeWatch time={this.state.time} />
       </div>
     );
   }
