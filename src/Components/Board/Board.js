@@ -13,16 +13,18 @@ const Board = props => {
   const actualBoard = [...props.board].map((row, i) => {
     const rowIndex = i;
     const initialRowFields = initialBoardStatus[i];
-    row = row.map((field, i) => (
-      <Tile
-        key={i}
-        id={i}
-        rowIndex={rowIndex}
-        value={field > 9 ? 9 : field && field < 1 ? 1 : field}
-        change={props.change}
-        disabled={initialRowFields[i]}
-      />
-    ));
+    row = row.map((field, i) => {
+      return (
+        <Tile
+          key={i}
+          id={i}
+          rowIndex={rowIndex}
+          value={field > 9 ? 9 : field && field < 1 ? 1 : field}
+          change={props.change}
+          disabled={initialRowFields[i]}
+        />
+      );
+    });
     return (
       <tr
         className={

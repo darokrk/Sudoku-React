@@ -9,6 +9,8 @@ import TimeWatch from "./TimeWatch/TimeWatch";
 let data = sudoku.generate("medium");
 data = sudoku.board_string_to_grid(data);
 
+let interval;
+
 class App extends Component {
   state = {
     initialBoard: data,
@@ -16,10 +18,14 @@ class App extends Component {
     time: {
       seconds: 0,
       minutes: 0
-    }
+    },
+    finished: false
   };
 
   handleTileChange = (e, id, rowIndex) => {
+    if (e.target.value.length > 1) {
+      return;
+    }
     const updateBoard = [...this.state.board].map((square, i) => {
       if (i === rowIndex) {
         return (square = square.map((field, i) => {
@@ -39,11 +45,15 @@ class App extends Component {
       time: {
         seconds: 0,
         minutes: 0
-      }
+      },
+      finished: false
     });
   };
 
   handleNewGame = () => {
+    clearInterval(interval);
+    this.stopWatch();
+
     data = sudoku.generate("medium");
     data = sudoku.board_string_to_grid([...data]);
     this.setState({
@@ -52,7 +62,8 @@ class App extends Component {
       time: {
         seconds: 0,
         minutes: 0
-      }
+      },
+      finished: false
     });
   };
 
@@ -75,10 +86,24 @@ class App extends Component {
   };
 
   getTime = () => {
-    const { seconds } = this.state.time;
-    this.setState(prevState => ({
-      time: { ...prevState.time, seconds: seconds + 1 }
-    }));
+    const { seconds, minutes } = this.state.time;
+    if (seconds === 60) {
+      this.setState(prevState => ({
+        time: {
+          ...prevState.time,
+          minutes: minutes + 1,
+          seconds: 0
+        }
+      }));
+    } else {
+      this.setState(prevState => ({
+        time: { ...prevState.time, seconds: seconds + 1 }
+      }));
+    }
+  };
+
+  stopWatch = () => {
+    interval = setInterval(this.getTime, 1000);
   };
 
   componentDidMount() {
@@ -86,20 +111,28 @@ class App extends Component {
   }
 
   componentDidUpdate() {
-    if (this.state.time.seconds === 60) {
-      this.setState(prevState => ({
-        time: {
-          ...prevState.time,
-          minutes: prevState.time.minutes + 1,
-          seconds: 0
+    if (this.state.finished) {
+      return;
+    } else {
+      let finishedBoard = sudoku.board_grid_to_string(this.state.board);
+      let result = finishedBoard.includes(".");
+      if (!result) {
+        finishedBoard = sudoku.solve(finishedBoard);
+        if (finishedBoard) {
+          alert("Congratulations you solve sudoku !!!");
+          this.setState({
+            finished: true
+          });
+        } else {
+          alert("Your sudoku was solve incorrect...");
+          this.setState({
+            finished: true
+          });
         }
-      }));
+        clearInterval(interval);
+      }
     }
   }
-
-  stopWatch = () => {
-    setInterval(this.getTime, 1000);
-  };
 
   render() {
     return (
