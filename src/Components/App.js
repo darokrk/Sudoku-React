@@ -6,6 +6,7 @@ import Board from "./Board/Board";
 import Button from "./Button/Button";
 import TimeWatch from "./TimeWatch/TimeWatch";
 import ScoreList from "./ScoreList/ScoreList";
+import Paused from "./Paused/Paused";
 
 let data = sudoku.generate("medium");
 data = sudoku.board_string_to_grid(data);
@@ -21,7 +22,8 @@ class App extends Component {
       minutes: 0
     },
     finished: false,
-    finishedTime: []
+    finishedTime: [],
+    paused: false
   };
 
   handleTileChange = (e, id, rowIndex) => {
@@ -51,7 +53,8 @@ class App extends Component {
         seconds: 0,
         minutes: 0
       },
-      finished: false
+      finished: false,
+      paused: false
     });
   };
 
@@ -68,11 +71,13 @@ class App extends Component {
         seconds: 0,
         minutes: 0
       },
-      finished: false
+      finished: false,
+      paused: false
     });
   };
 
   handleSolve = initialBoard => {
+    if (this.state.paused) return alert("To show solve, first unpause game :)");
     let solvedBoard = sudoku.board_grid_to_string(initialBoard);
     solvedBoard = sudoku.solve(solvedBoard);
     if (solvedBoard) {
@@ -86,6 +91,8 @@ class App extends Component {
   };
 
   handleCheck = actualBoard => {
+    if (this.state.paused)
+      return alert("To check the board, first unpause game :)");
     let checkedBoard = sudoku.board_grid_to_string(actualBoard);
     checkedBoard = sudoku.solve(checkedBoard);
     if (checkedBoard) return alert("Keep going you can solve it :)");
@@ -114,6 +121,21 @@ class App extends Component {
 
   stopWatch = () => {
     interval = setInterval(this.getTime, 1000);
+  };
+
+  handlePause = () => {
+    if (interval) {
+      clearInterval(interval);
+      interval = 0;
+      this.setState({
+        paused: true
+      });
+    } else {
+      this.stopWatch();
+      this.setState({
+        paused: false
+      });
+    }
   };
 
   componentDidMount() {
@@ -150,11 +172,15 @@ class App extends Component {
     return (
       <div className="container">
         <Header />
-        <Board
-          change={this.handleTileChange}
-          initialBoard={this.state.initialBoard}
-          board={this.state.board}
-        />
+        {this.state.paused ? (
+          <Paused />
+        ) : (
+          <Board
+            change={this.handleTileChange}
+            initialBoard={this.state.initialBoard}
+            board={this.state.board}
+          />
+        )}
         <div className="buttons__wrapper">
           <Button
             class={"check"}
@@ -174,6 +200,7 @@ class App extends Component {
             name={"Restart"}
             click={this.handleRestart}
           />
+          <Button class={"pause"} name={"Pause"} click={this.handlePause} />
         </div>
         <TimeWatch time={this.state.time} />
         <ScoreList finishedTime={this.state.finishedTime} />
