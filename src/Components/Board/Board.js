@@ -19,7 +19,7 @@ const Board = props => {
           key={i}
           id={i}
           rowIndex={rowIndex}
-          value={field > 9 ? 9 : field && field < 1 ? 1 : field}
+          value={field === "." ? "" : field}
           change={props.change}
           disabled={initialRowFields[i]}
         />

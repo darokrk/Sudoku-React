@@ -5,18 +5,13 @@
 body {
   margin: 0;
   padding: 0;
-  // background: #98ccd3;
-  background: #c02425; /* fallback for old browsers */
-  background: -webkit-linear-gradient(
-    to right,
+  background: #c02425;
+  background: -webkit-linear-gradient(to right,
     #f0cb35,
-    #c02425
-  ); /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(
-    to right,
+    #c02425);
+  background: linear-gradient(to right,
     #f0cb35,
-    #c02425
-  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    #c02425);
 
-  color: #ebf0f6;
+  color: black;
 }

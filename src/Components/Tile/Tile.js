@@ -1,3 +1,4 @@
+// import React from "react";
 import React from "react";
 import "./Tile.scss";
 
@@ -15,7 +16,7 @@ const Tile = props => {
         type="number"
         min="1"
         max="9"
-        value={props.value !== "." ? props.value : ""}
+        value={props.value}
         onChange={e => props.change(e, props.id, props.rowIndex)}
         disabled={props.disabled}
       />

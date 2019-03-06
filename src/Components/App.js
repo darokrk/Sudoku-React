@@ -5,6 +5,7 @@ import Header from "./Header/Header";
 import Board from "./Board/Board";
 import Button from "./Button/Button";
 import TimeWatch from "./TimeWatch/TimeWatch";
+import ScoreList from "./ScoreList/ScoreList";
 
 let data = sudoku.generate("medium");
 data = sudoku.board_string_to_grid(data);
@@ -19,17 +20,19 @@ class App extends Component {
       seconds: 0,
       minutes: 0
     },
-    finished: false
+    finished: false,
+    finishedTime: []
   };
 
   handleTileChange = (e, id, rowIndex) => {
     if (e.target.value.length > 1) {
       return;
     }
+    const inputValue = e.target.value ? e.target.value : ".";
     const updateBoard = [...this.state.board].map((square, i) => {
       if (i === rowIndex) {
         return (square = square.map((field, i) => {
-          if (i === id) return (field = e.target.value);
+          if (i === id) return (field = inputValue);
           else return field;
         }));
       } else return square;
@@ -40,6 +43,8 @@ class App extends Component {
   };
 
   handleRestart = () => {
+    clearInterval(interval);
+    this.stopWatch();
     this.setState({
       board: this.state.initialBoard,
       time: {
@@ -67,21 +72,23 @@ class App extends Component {
     });
   };
 
-  handleSolve = actualBoard => {
-    let solveBoard = sudoku.board_grid_to_string(actualBoard);
-    solveBoard = sudoku.solve(solveBoard);
-    if (solveBoard) {
-      solveBoard = sudoku.board_string_to_grid(solveBoard);
+  handleSolve = initialBoard => {
+    let solvedBoard = sudoku.board_grid_to_string(initialBoard);
+    solvedBoard = sudoku.solve(solvedBoard);
+    if (solvedBoard) {
+      solvedBoard = sudoku.board_string_to_grid(solvedBoard);
       this.setState({
-        board: solveBoard
+        board: solvedBoard,
+        finished: true
       });
-    } else return alert("You make some mistake, your sudoku can't be solved!");
+      clearInterval(interval);
+    }
   };
 
   handleCheck = actualBoard => {
-    let checkBoard = sudoku.board_grid_to_string(actualBoard);
-    checkBoard = sudoku.solve(checkBoard);
-    if (checkBoard) return alert("Keep going you can solve it :)");
+    let checkedBoard = sudoku.board_grid_to_string(actualBoard);
+    checkedBoard = sudoku.solve(checkedBoard);
+    if (checkedBoard) return alert("Keep going you can solve it :)");
     else return alert("You make some mistake, fix some Tiles");
   };
 
@@ -97,7 +104,10 @@ class App extends Component {
       }));
     } else {
       this.setState(prevState => ({
-        time: { ...prevState.time, seconds: seconds + 1 }
+        time: {
+          ...prevState.time,
+          seconds: seconds + 1
+        }
       }));
     }
   };
@@ -112,6 +122,7 @@ class App extends Component {
 
   componentDidUpdate() {
     if (this.state.finished) {
+      clearInterval(interval);
       return;
     } else {
       let finishedBoard = sudoku.board_grid_to_string(this.state.board);
@@ -119,17 +130,18 @@ class App extends Component {
       if (!result) {
         finishedBoard = sudoku.solve(finishedBoard);
         if (finishedBoard) {
-          alert("Congratulations you solve sudoku !!!");
-          this.setState({
-            finished: true
-          });
+          alert("Congratulations you solved sudoku !!!");
+          const finishedTime = [this.state.time];
+          this.setState(prevState => ({
+            finished: true,
+            finishedTime: [...prevState.finishedTime, ...finishedTime]
+          }));
         } else {
-          alert("Your sudoku was solve incorrect...");
+          alert("Your sudoku was solved incorrect...");
           this.setState({
             finished: true
           });
         }
-        clearInterval(interval);
       }
     }
   }
@@ -153,7 +165,7 @@ class App extends Component {
           <Button class={"game"} name={"New Game"} click={this.handleNewGame} />
           <Button
             class={"solve"}
-            board={this.state.board}
+            board={this.state.initialBoard}
             name={"Solve"}
             click={this.handleSolve}
           />
@@ -164,6 +176,7 @@ class App extends Component {
           />
         </div>
         <TimeWatch time={this.state.time} />
+        <ScoreList finishedTime={this.state.finishedTime} />
       </div>
     );
   }
