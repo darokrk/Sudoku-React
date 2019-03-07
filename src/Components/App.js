@@ -7,8 +7,10 @@ import Button from "./Button/Button";
 import TimeWatch from "./TimeWatch/TimeWatch";
 import ScoreList from "./ScoreList/ScoreList";
 import Paused from "./Paused/Paused";
+import { getLevel } from "../helper";
 
-let data = sudoku.generate("medium");
+let gameLevel = getLevel();
+let data = sudoku.generate(gameLevel);
 data = sudoku.board_string_to_grid(data);
 
 let interval;
@@ -62,7 +64,8 @@ class App extends Component {
     clearInterval(interval);
     this.stopWatch();
 
-    data = sudoku.generate("medium");
+    gameLevel = getLevel();
+    data = sudoku.generate(gameLevel);
     data = sudoku.board_string_to_grid([...data]);
     this.setState({
       initialBoard: data,
@@ -152,7 +155,7 @@ class App extends Component {
       if (!result) {
         finishedBoard = sudoku.solve(finishedBoard);
         if (finishedBoard) {
-          alert("Congratulations you solved sudoku !!!");
+          alert(`Congratulations you solved ${gameLevel} level sudoku !!!`);
           const finishedTime = [this.state.time];
           this.setState(prevState => ({
             finished: true,
@@ -202,7 +205,7 @@ class App extends Component {
           />
           <Button class={"pause"} name={"Pause"} click={this.handlePause} />
         </div>
-        <TimeWatch time={this.state.time} />
+        <TimeWatch time={this.state.time} gameLevel={gameLevel} />
         <ScoreList finishedTime={this.state.finishedTime} />
       </div>
     );
