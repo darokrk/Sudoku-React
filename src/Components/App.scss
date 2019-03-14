@@ -1,9 +1,12 @@
 .container {
   max-width: 564px;
   margin: auto;
+  padding: 10px;
 }
 
 .buttons__wrapper {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
 }

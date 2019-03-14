@@ -4,7 +4,8 @@ import "./TimeWatch.scss";
 const TimeWatch = props => {
   const { minutes, seconds } = props.time;
   const timeFormat = (minutes, seconds) => {
-    if (seconds > 9) return `0${minutes}:${seconds}`;
+    if (seconds > 9) return ` 0${minutes}:${seconds}`;
+    else if (minutes > 9) return ` ${minutes}:${seconds}`;
     return ` 0${minutes}:0${seconds}`;
   };
   return (

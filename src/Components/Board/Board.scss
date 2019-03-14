@@ -1,12 +1,26 @@
-.board {
+.board-wrapper {
   display: flex;
   border: 2px solid black;
 }
 
-.table__row {
+.board {
   display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  height: 560px;
 }
 
-.table__row--border {
+.board__row {
+  display: flex;
+  width: 100%;
+}
+
+.board__row--border {
   border-bottom: 2px solid black;
+}
+
+@media (max-width: 420px) {
+  .board {
+    height: 50vh;
+  }
 }

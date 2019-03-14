@@ -1,17 +1,23 @@
-.table__data {
+.board__data {
+  flex: 1;
+  position: relative;
   padding: 0;
   border: 1px solid gray;
 }
 
-.table__data--border {
+.board__data--border {
   border-right: 2px solid black;
 }
 
-.tile__input {
-  width: 60px;
-  height: 60px;
+.board__input {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
   border: none;
-  font-size: 36px;
+  font-size: 2.2rem;
   color: rgb(0, 0, 236);
   text-align: center;
   padding: 0;
@@ -28,8 +34,14 @@
   }
 }
 
-.tile__input::-webkit-inner-spin-button,
-.tile__input::-webkit-outer-spin-button {
+.board__input::-webkit-inner-spin-button,
+.board__input::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+@media (max-width: 420px) {
+  .board__input {
+    font-size: 1.8rem;
+  }
 }
