@@ -28,7 +28,7 @@ const Board = props => {
     return (
       <tr
         className={
-          i === 2 || i === 5 ? "table__row table__row--border" : "table__row"
+          i === 2 || i === 5 ? "board__row board__row--border" : "board__row"
         }
         key={i}
       >
@@ -37,8 +37,8 @@ const Board = props => {
     );
   });
   return (
-    <table className="board">
-      <tbody>{actualBoard}</tbody>
+    <table className="board-wrapper">
+      <tbody className="board">{actualBoard}</tbody>
     </table>
   );
 };

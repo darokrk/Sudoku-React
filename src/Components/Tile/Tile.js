@@ -7,12 +7,12 @@ const Tile = props => {
     <td
       className={
         props.id === 2 || props.id === 5
-          ? "table__data table__data--border"
-          : "table__data"
+          ? "board__data board__data--border"
+          : "board__data"
       }
     >
       <input
-        className="tile__input"
+        className="board__input"
         type="number"
         min="1"
         max="9"

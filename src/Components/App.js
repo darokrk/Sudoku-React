@@ -163,9 +163,7 @@ class App extends Component {
           }));
         } else {
           alert("Your sudoku was solved incorrect...");
-          this.setState({
-            finished: true
-          });
+          clearInterval(interval);
         }
       }
     }
@@ -174,7 +172,7 @@ class App extends Component {
   render() {
     return (
       <div className="container">
-        <Header />
+        <Header pauseClick={this.handlePause} />
         {this.state.paused ? (
           <Paused />
         ) : (
@@ -203,7 +201,6 @@ class App extends Component {
             name={"Restart"}
             click={this.handleRestart}
           />
-          <Button class={"pause"} name={"Pause"} click={this.handlePause} />
         </div>
         <TimeWatch time={this.state.time} gameLevel={gameLevel} />
         <ScoreList finishedTime={this.state.finishedTime} />
