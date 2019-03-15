@@ -28,6 +28,12 @@
   }
 }
 
+.board__input::-webkit-inner-spin-button,
+.board__input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 @media (max-width: 420px) {
   .board__input {
     font-size: 1.8rem;
