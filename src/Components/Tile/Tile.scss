@@ -23,7 +23,7 @@
   }
 }
 
-input[type="number"]:disabled {
+input[readonly] {
   background: white;
   color: rgb(34, 34, 34);
   z-index: 1;

@@ -18,7 +18,7 @@ const Tile = props => {
         max="9"
         value={props.value}
         onChange={e => props.change(e, props.id, props.rowIndex)}
-        disabled={props.disabled}
+        readOnly={props.readOnly}
       />
     </td>
   );

@@ -21,7 +21,7 @@ const Board = props => {
           rowIndex={rowIndex}
           value={field === "." ? "" : field}
           change={props.change}
-          disabled={initialRowFields[i]}
+          readOnly={initialRowFields[i]}
         />
       );
     });
