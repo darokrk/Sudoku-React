@@ -23,7 +23,7 @@
   }
 
   &:disabled {
-    background: white;
+    background: white !important;
     color: rgb(34, 34, 34);
   }
 }
