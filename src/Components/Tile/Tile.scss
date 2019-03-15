@@ -19,21 +19,13 @@
   padding: 0;
 
   &:focus {
-    outline: none;
-    border: 2px solid blue;
-    box-shadow: 0 0 10px blue;
+    outline-color: blue;
   }
 
   &:disabled {
     background: white;
     color: rgb(34, 34, 34);
   }
-}
-
-.board__input::-webkit-inner-spin-button,
-.board__input::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
 }
 
 @media (max-width: 420px) {
