@@ -104,7 +104,7 @@ class App extends Component {
 
   getTime = () => {
     const { seconds, minutes } = this.state.time;
-    if (seconds === 60) {
+    if (seconds === 59) {
       this.setState(prevState => ({
         time: {
           ...prevState.time,
